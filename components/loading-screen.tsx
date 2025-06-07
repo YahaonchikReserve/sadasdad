@@ -29,7 +29,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
     const timer = setTimeout(() => {
       setIsVisible(false)
-      setTimeout(onComplete, 300)
+      setTimeout(() => onComplete(), 300)
     }, 4000)
 
     return () => clearTimeout(timer)
