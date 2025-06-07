@@ -17,22 +17,31 @@ export function WaterTextAnimation({ text, className = "", color = "inherit" }: 
     setMounted(true)
   }, [])
 
+  // Prevent hydration mismatch by rendering static text on server
+  if (!mounted) {
+    return (
+      <div className={`flex flex-wrap justify-center ${className}`} style={{ color }}>
+        {letters.map((letter, index) => (
+          <span key={index} className="inline-block">
+            {letter === " " ? "\u00A0" : letter}
+          </span>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className={`flex flex-wrap justify-center ${className}`}>
       {letters.map((letter, index) => (
         <motion.span
           key={index}
           className="inline-block"
-          initial={
-            mounted
-              ? {
-                  opacity: 0,
-                  y: 50,
-                  scaleY: 0.3,
-                  filter: "blur(4px)",
-                }
-              : undefined
-          }
+          initial={{
+            opacity: 0,
+            y: 50,
+            scaleY: 0.3,
+            filter: "blur(4px)",
+          }}
           animate={{
             opacity: 1,
             y: 0,

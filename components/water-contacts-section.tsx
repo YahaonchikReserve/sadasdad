@@ -4,14 +4,21 @@ import { motion } from "framer-motion"
 import { WaterTextAnimation } from "@/components/water-text-animation"
 import { Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
 
 export function WaterContactsSection({ onCallMaster }: { onCallMaster: () => void }) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-br from-blue-400 via-cyan-500 to-blue-600">
       {/* Water Animation Background */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated ripples */}
-        {[...Array(6)].map((_, i) => (
+        {/* Animated ripples - only render after mount */}
+        {mounted && [...Array(6)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full border-2 border-white/20"
@@ -33,8 +40,8 @@ export function WaterContactsSection({ onCallMaster }: { onCallMaster: () => voi
           />
         ))}
 
-        {/* Additional smaller ripples */}
-        {[...Array(4)].map((_, i) => (
+        {/* Additional smaller ripples - only render after mount */}
+        {mounted && [...Array(4)].map((_, i) => (
           <motion.div
             key={`small-${i}`}
             className="absolute rounded-full border border-white/30"
@@ -56,14 +63,14 @@ export function WaterContactsSection({ onCallMaster }: { onCallMaster: () => voi
           />
         ))}
 
-        {/* Water droplets */}
-        {[...Array(12)].map((_, i) => (
+        {/* Water droplets - only render after mount */}
+        {mounted && [...Array(12)].map((_, i) => (
           <motion.div
             key={`droplet-${i}`}
             className="absolute w-3 h-3 bg-white/60 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${20 + (i * 7) % 60}%`, // Use deterministic positioning
+              top: `${15 + (i * 11) % 70}%`,
             }}
             animate={{
               y: [-30, 30, -30],
@@ -72,22 +79,22 @@ export function WaterContactsSection({ onCallMaster }: { onCallMaster: () => voi
               scale: [0.8, 1.2, 0.8],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 3 + (i % 3),
               repeat: Number.POSITIVE_INFINITY,
-              delay: Math.random() * 2,
+              delay: (i % 4) * 0.5,
               ease: "easeInOut",
             }}
           />
         ))}
 
-        {/* Floating particles */}
-        {[...Array(8)].map((_, i) => (
+        {/* Floating particles - only render after mount */}
+        {mounted && [...Array(8)].map((_, i) => (
           <motion.div
             key={`particle-${i}`}
             className="absolute w-2 h-2 bg-white/40 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${10 + (i * 13) % 80}%`, // Use deterministic positioning
+              top: `${10 + (i * 17) % 80}%`,
             }}
             animate={{
               y: [-20, 20, -20],
@@ -95,9 +102,9 @@ export function WaterContactsSection({ onCallMaster }: { onCallMaster: () => voi
               opacity: [0.4, 0.8, 0.4],
             }}
             transition={{
-              duration: 4 + Math.random() * 2,
+              duration: 4 + (i % 3),
               repeat: Number.POSITIVE_INFINITY,
-              delay: Math.random() * 2,
+              delay: (i % 3) * 0.7,
               ease: "easeInOut",
             }}
           />
